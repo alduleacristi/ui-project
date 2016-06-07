@@ -1,0 +1,60 @@
+﻿<div>
+    <script type="text/ng-template" id="group-template.html">
+        <div class="panel {{panelClass || 'panel-default'}}">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color:#fa39c3">
+                    <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
+                        <span ng-class="{'text-muted': isDisabled}">{{heading}}</span>
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" uib-collapse="!isOpen">
+                <div class="panel-body" style="text-align: right" ng-transclude></div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="alert.html">
+        <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
+            <div ng-transclude></div>
+        </div>
+    </script>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <div ng-include="'/resources/templates/PlatformMenu.html'"></div>
+        </div>
+        <div class="col-lg-6">
+            <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds" events="map.events">
+                <ui-gmap-polygon static="true" ng-repeat="p in polygons track by p.id" path="p.path" stroke="p.stroke" visible="p.visible"
+                                 geodesic="p.geodesic" fill="p.fill" fit="false" editable="p.editable" draggable="p.draggable"></ui-gmap-polygon>
+                <ui-gmap-marker ng-repeat="m in markers" coords="m.coords" icon="m.icon" idkey="m.id" options="markerOptions" events="markerEvents"></ui-gmap-marker>
+            </ui-gmap-google-map>
+        </div>
+        <div class="col-lg-4">
+            <uib-accordion>
+                <uib-accordion-group heading="Selected region" is-open="true">
+                    <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+                    <div>
+                        <input ng-model="region.name" placeholder="Name of the region" />
+                    </div>
+                    <br />
+                    <uib-accordion>
+                        <uib-accordion-group heading="List of points" is-open="true">
+                            <div ng-show="markers.length == 0">List is empty</div>
+                            <div ng-show="markers.length > 0">
+                                <ul ng-repeat="m in markers">
+                                    <li>Lat - {{m.coords.latitude.toFixed(10)}}, Long - {{m.coords.longitude.toFixed(10)}}</li>
+                                </ul>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                    <button type="button" class="btn btn-primary" ng-click="saveRegion()">
+                        Save
+                    </button>
+                    <span us-spinner spinner-key="spinner-1"></span>
+                </uib-accordion-group>
+            </uib-accordion>
+</div>
+</div>
+    </div>

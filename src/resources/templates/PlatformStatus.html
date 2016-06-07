@@ -1,0 +1,82 @@
+﻿<div>
+    <div class="row">
+        <div class="col-lg-2">
+            <div ng-include="'/resources/templates/PlatformMenu.html'"></div>
+        </div>
+        <div class="col-lg-10" style="min-height: 400px;">
+            <uib-tabset active="active">
+                <uib-tab index="0" heading="Cluster status">
+                    <div class="status-list">
+                            <div ng-repeat="info in clusterInfo" class="status-list-row">
+                                <span style="font-weight: bold;">{{info.key}} : </span>
+                                <span>{{info.value}}</span>
+                                <span ng-show="clusterInfoOk">
+                                    <img src="../../resources/img/ok.jpg" class="status-list-img" />
+                                </span>
+                                <span ng-show="!clusterInfoOk">
+                                    <img src="../../resources/img/notRunning.jpg" class="status-list-img" />
+                                </span>
+                            </div>
+
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="Cluster nodes">
+                    <div class="status-list" ng-show="clusterNodesOk">
+                        <div>
+                            <uib-accordion close-others="oneAtATime">
+                                <uib-accordion-group heading="{{node.id | split:':':0}}" ng-repeat="node in clusterNodes" class="status-list-row">
+                                    <div class="status-list">
+                                        <div class="status-list-row">
+                                            <span style="font-weight: bold;">Hostname: </span>
+                                            <span>{{node.nodeHostName}}</span>
+                                        </div>
+                                        <div class="status-list-row">
+                                            <span style="font-weight: bold;">Http adress: </span>
+                                            <span>{{node.nodeHTTPAddress}}</span>
+                                        </div>
+                                        <div class="status-list-row">
+                                            <span style="font-weight: bold;">State: </span>
+                                            <span>{{node.state}}</span>
+                                        </div>
+                                        <div class="status-list-row">
+                                            <span style="font-weight: bold;">Rack: </span>
+                                            <span>{{node.rack}}</span>
+                                        </div>
+                                        <div class="status-list-row">
+                                            <span style="font-weight: bold;">Number of containers: </span>
+                                            <span>{{node.numContainers}}</span>
+                                        </div>
+                                        <div class="status-list-row">
+                                            <span style="font-weight: bold;">Available memory (MB): </span>
+                                            <span>{{node.availMemoryMB}}</span>
+                                        </div>
+                                        <div class="status-list-row">
+                                            <span style="font-weight: bold;">Used memory (MB): </span>
+                                            <span>{{node.usedMemoryMB}}</span>
+                                        </div>
+                                    </div>
+                                </uib-accordion-group> 
+                            </uib-accordion>        
+                        </div>
+                    </div>
+                    <div ng-show="!clusterNodesOk" style="padding: 20px;">No data available</div>
+                </uib-tab>
+                <uib-tab index="2" heading="Cluster metrics">
+                    <div class="status-list">
+                        <div ng-repeat="info in clusterMetrics" class="status-list-row">
+                            <span style="font-weight: bold;">{{info.key}} : </span>
+                            <span>{{info.value}}</span>
+                            <span ng-show="clusterInfoOk">
+                                <img src="../../resources/img/ok.jpg" class="status-list-img" />
+                            </span>
+                            <span ng-show="!clusterInfoOk">
+                                <img src="../../resources/img/notRunning.jpg" class="status-list-img" />
+                            </span>
+                        </div>
+
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

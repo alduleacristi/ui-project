@@ -1,0 +1,35 @@
+﻿<div>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="navbar navbar-default ">
+                <ul class="nav navbar-nav left-navbar">
+                    <li>
+                        <a href="#/turism">History</a>
+                    </li>
+                    <br/>
+                    <li>
+                        <a href="#/turism">Predictions</a>
+                    </li>
+                    </br>
+                    <li>
+                        <a href="#/turism">Compare</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <highchart id="chart1" config="chartConfig"></highchart>
+        </div>
+        <div class="col-lg-2">
+            <uib-accordion>
+                <uib-accordion-group heading="Compare with" is-open="true">
+                    <div style="background-color:red; height: 24px;">
+                        <div class="col-lg-2" style="height:20px; margin-top: 2px;">
+                            <input type="checkbox" ng-model="compareModel" ng-change="changeCompare()" ng-true-value="true" ng-false-value="false"/>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+        </div>
+</div>

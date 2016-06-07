@@ -1,0 +1,18 @@
+﻿<div>
+    <div class="row">
+        <div class="col-lg-2">
+            <div ng-include="'/resources/templates/PlatformMenu.html'"></div>
+        </div>
+        <div class="col-lg-10">
+            <div ng-show="noDataIsAvailable" style="height: 350px;">
+                </br >
+                </br >
+                </br >
+                <h1 style="text-align: center;">No data is available about this region</h1>
+            </div>
+            <div ng-show="!noDataIsAvailable" style="height: 350px;">
+                <div id="queryGrid" ui-grid="grid" class="grid" ui-grid-expandable></div>
+            </div>
+        </div>
+    </div>
+</div>

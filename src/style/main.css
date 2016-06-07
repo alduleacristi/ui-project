@@ -1,0 +1,51 @@
+﻿#map{
+    height: 300px;
+}
+.left-nav{
+    float: left;
+    background-color: red;
+    width: 100px;
+    float:left;
+    height: 500px;
+}
+.viewContent{
+
+}
+.nav>li>a{
+    border-color: #428bca;
+    color: #428bca !important;
+}
+.left-navbar{
+    float: left !important;
+}
+#cityGrid{
+    height: 350px;
+}
+.angular-google-map-container { 
+    height: 450px; 
+}
+
+.notRunningImg {
+    background-image: url(../resources/img/notRunning.jpg);
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-left: 35px;
+}
+.btn-primary{
+    height: 23px;
+    padding: 1px 12px;
+}
+
+.status-list{
+    style="border: solid 1pt #eee;"
+}
+.status-list-row{
+    border-bottom: solid 1pt #eee;
+    padding: 15px;
+}
+.status-list-img{
+    width: 15px;
+    margin-left: 15px;
+}

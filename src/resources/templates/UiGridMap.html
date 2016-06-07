@@ -1,0 +1,16 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Region {{region.name}}</h3>
+</div>
+<div class="modal-body">
+    <div>
+        <ui-gmap-google-map ng-if="render" center="region.map.center" zoom="region.map.zoom" draggable="true" options="options" bounds="region.map.bounds"  dorebuildall="true">
+            <ui-gmap-polygon static="true" ng-repeat="p in region.map.polygons track by p.id" path="p.path" stroke="p.stroke" visible="p.visible"
+                             geodesic="p.geodesic" fill="p.fill" fit="false" editable="p.editable" draggable="p.draggable"></ui-gmap-polygon>
+            <ui-gmap-marker ng-repeat="m in region.map.markers" coords="m.coords" icon="m.icon" idkey="m.id" ></ui-gmap-marker>
+        </ui-gmap-google-map>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+</div>

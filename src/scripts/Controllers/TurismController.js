@@ -147,7 +147,7 @@ $scope.openMap = function (region) {
 };
 
 $scope.openStatistics = function (region) {
-    console.log(region.id)
-    $location.path('/turism/'+region.id)
+    console.log("Try to open new region: ",region.idRegion)
+    $location.path('/turism/'+region.idRegion)
 }
 });

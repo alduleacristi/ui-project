@@ -2,11 +2,11 @@
 
 restModule.config(function (RestangularProvider) {
     RestangularProvider.setBaseUrl(
-        'http://192.168.209.139:8082/platform-server/api');
+        'http://localhost:8082/platform-server/api');
 
-    RestangularProvider.setDefaultHttpFields({
-        withCredentials: true
-    });
+//    RestangularProvider.setDefaultHttpFields({
+//        withCredentials: true
+//    });
 });
 
 restModule.factory('Region', function (Restangular) {

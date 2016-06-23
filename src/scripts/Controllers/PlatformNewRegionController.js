@@ -122,6 +122,7 @@
             };
             $scope.stopSpin();
             $scope.alerts.push(failedAlert);
+            console.log(response);
         });
     };
 

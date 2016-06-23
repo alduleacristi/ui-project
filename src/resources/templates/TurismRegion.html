@@ -1,35 +1,63 @@
 ﻿<div>
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="navbar navbar-default ">
-                <ul class="nav navbar-nav left-navbar">
-                    <li>
-                        <a href="#/turism">History</a>
-                    </li>
-                    <br/>
-                    <li>
-                        <a href="#/turism">Predictions</a>
-                    </li>
-                    </br>
-                    <li>
-                        <a href="#/turism">Compare</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <highchart id="chart1" config="chartConfig"></highchart>
-        </div>
-        <div class="col-lg-2">
-            <uib-accordion>
-                <uib-accordion-group heading="Compare with" is-open="true">
-                    <div style="background-color:red; height: 24px;">
-                        <div class="col-lg-2" style="height:20px; margin-top: 2px;">
-                            <input type="checkbox" ng-model="compareModel" ng-change="changeCompare()" ng-true-value="true" ng-false-value="false"/>
-                        </div>
-                    </div>
-                </uib-accordion-group>
-            </uib-accordion>
-        </div>
-        </div>
+	<div class="row">
+		<div class="col-lg-2">
+			<div class="navbar navbar-default ">
+				<!--                 <ul class="nav navbar-nav left-navbar"> -->
+				<!--                     <li> -->
+				<!--                         <a href="#/turism">History</a> -->
+				<!--                     </li> -->
+				<!--                     <br/> -->
+				<!--                     <li> -->
+				<!--                         <a href="#/turism">Predictions</a> -->
+				<!--                     </li> -->
+				<!--                     </br> -->
+				<!--                     <li> -->
+				<!--                         <a href="#/turism">Compare</a> -->
+				<!--                     </li> -->
+				<!--                 </ul> -->
+				<uib-accordion close-others="oneAtATime"> <uib-accordion-group
+					is-open="statusHistory.open"> <uib-accordion-heading>
+				History <i class="pull-right glyphicon"
+					ng-class="{'glyphicon-chevron-down': statusHistory.open, 'glyphicon-chevron-right': !statusHistory.open}"></i>
+				</uib-accordion-heading>
+				<ul class="nav navbar-nav left-navbar">
+					<li><a href="" ng-click="selectHistoryPrecipitations()">Precipitations</a></li>
+					<li><a href="#">Max temperature</a></li>
+					<li><a href="#">Min temperature</a></li>
+				</ul>
+				</uib-accordion-group> <uib-accordion-group is-open="statusPredictions.open">
+				<uib-accordion-heading> Predictions <i
+					class="pull-right glyphicon"
+					ng-class="{'glyphicon-chevron-down': statusPredictions.open, 'glyphicon-chevron-right': !statusPredictions.open}"></i>
+				</uib-accordion-heading>
+				<ul class="nav navbar-nav left-navbar">
+					<li><a href="#">Precipitations</a></li>
+					<li><a href="#">Max temperature</a></li>
+					<li><a href="#">Min temperature</a></li>
+				</ul>
+				</uib-accordion-group> </uib-accordion>
+			</div>
+		</div>
+		<div class="col-lg-8">
+			<div class="col-lg-1" style="height: 300px; margin-top: 50px;">
+				<rzslider rz-slider-model="avgSlider.value" rz-slider-high="avgSlider.maxValue"
+          rz-slider-options="avgSlider.options"></rzslider>
+			</div>
+			<div class="col-lg-8">
+				<highchart id="chart1" config="chartConfig"></highchart>
+			</div>
+		</div>
+		<div class="col-lg-2">
+			<uib-accordion> <uib-accordion-group
+				heading="Compare with" is-open="true">
+			<div style="background-color: red; height: 24px;">
+				<div class="col-lg-2" style="height: 20px; margin-top: 2px;">
+					<input type="checkbox" ng-model="compareModel"
+						ng-change="changeCompare()" ng-true-value="true"
+						ng-false-value="false" />
+				</div>
+			</div>
+			</uib-accordion-group> </uib-accordion>
+		</div>
+	</div>
 </div>

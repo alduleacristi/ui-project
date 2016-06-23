@@ -2,7 +2,7 @@
 
 restModule.config(function (RestangularProvider) {
     RestangularProvider.setBaseUrl(
-        'http://localhost:8082/platform-server/api');
+        'http://192.168.171.133:8082/platform-server/api');
 
 //    RestangularProvider.setDefaultHttpFields({
 //        withCredentials: true
@@ -36,4 +36,9 @@ restModule.factory('Auth', function (Restangular) {
 });
 restModule.factory('Authentication', function (Restangular) {
     return Restangular.service('auth/authentication');
+});
+
+//Query resuts
+restModule.factory('PrecipitationQueryResults', function (Restangular) {
+    return Restangular.service('/results/precipitations/avgEachYears');
 });

@@ -1,4 +1,4 @@
-﻿var app = angular.module('mainApp', ['ngRoute', 'ngResource', 'ui.grid', 'ui.grid.pagination', 'crumble', 'uiGmapgoogle-maps', 'ui.bootstrap', 'highcharts-ng', 'restModule', 'angularSpinner', 'ui.grid.expandable', 'restangular', 'ui-listView']);
+﻿var app = angular.module('mainApp', ['ngRoute', 'ngResource', 'ui.grid', 'ui.grid.pagination', 'crumble', 'uiGmapgoogle-maps', 'ui.bootstrap', 'highcharts-ng', 'restModule', 'angularSpinner', 'ui.grid.expandable', 'restangular', 'ui-listView', 'rzModule']);
 
 app.config(['$routeProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -199,19 +199,17 @@ app.run(function ($rootScope, crumble) {
 })
 
 app.controller("MainController", function ($scope, Restangular, Auth) {
-    $scope.$on('$viewContentLoaded', function () {
-        console.log("View content loaded...");
-        
-        Auth.get("permission").then(function (result) {
-            
-            console.log("Permissions: ", result);
-            $scope.authenticated = true;
-        }, function (response) {
-            console.error("Failed to get permissions", response.status, response.statusText);
-            $scope.authenticated = false;
-
-        });
-    });
+//    $scope.$on('$viewContentLoaded', function () {        
+//        Auth.get("permission").then(function (result) {
+//            
+//            console.log("Permissions: ", result);
+//            $scope.authenticated = true;
+//        }, function (response) {
+//            console.error("Failed to get permissions", response.status, response.statusText);
+//            $scope.authenticated = false;
+//
+//        });
+//    });
 
     $scope.authenticated = false;
     $scope.$on("authOK", function (event, data) {

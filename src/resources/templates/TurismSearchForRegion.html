@@ -1,0 +1,42 @@
+﻿<div>
+	<div class="row">
+		<div class="col-lg-2">
+			<div ng-include="'/resources/templates/TurismMenu.html'"></div>
+		</div>
+		<div class="col-lg-9" style="height: 500px;">
+			<div style="width: 100%;">
+				<typeahead title="AccName" subtitle="BillingCity"
+					displaykey="AccName" retkey="AccId" modelret="valRet"
+					region="region" />
+			</div>
+			</br>
+			</br>
+			<div class="row">
+				<div class="col-lg-12">
+					<table class="table" id="table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>First year</th>
+								<th>Last year</th>
+								<th>View statistics</th>
+							</tr>
+						</thead>
+						<tbody ng-show="region != null">
+							<tr>
+								<td>{{region.name}}</td>
+								<td>{{region.startYear}}</td>
+								<td>{{region.endYear}}</td>
+								<td>
+									<button type="button" class="btn btn-primary" ng-click="openStatistics(region)">View</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<hr>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

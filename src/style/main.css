@@ -52,3 +52,16 @@
 .panel-group{
 	margin-bottom: 0px;
 }
+
+.noTopBottomPad{
+    padding-top : 2px !important;
+    padding-bottom : 2px !important;
+}
+.overlap {
+	position: absolute !important;
+    z-index: 900 !important; 
+    width: inherit  !important;
+}
+.loadImage { 
+	background: white url('{!URLFOR($Resource.AutoCompleteWithModal, 'AjaxLoad.gif')}') right center no-repeat; 
+}

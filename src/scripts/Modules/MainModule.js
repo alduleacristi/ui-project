@@ -19,7 +19,6 @@ app.config(['$routeProvider', function ($routeProvider, $locationProvider) {
       })
       .when('/turism', {
           templateUrl: 'resources/templates/Turism.html',
-          controller: 'TurismController',
           label: 'Turism',
           /*resolve: { //Here we would use all the hardwork we have done
               //above and make call to the authorization Service
@@ -31,6 +30,16 @@ app.config(['$routeProvider', function ($routeProvider, $locationProvider) {
               },
           }*/
       })
+      .when('/turism/allRegions', {
+          templateUrl: 'resources/templates/TurismAllregions.html',
+          controller: 'TurismAllRegionsController',
+          label: 'All regions',
+      })
+      .when('/turism/searchForRegion', {
+             templateUrl: 'resources/templates/TurismSearchForRegion.html',
+             controller: 'TurismSearchForRegionController',
+             label: 'Search for region'
+       })
       .when('/turism/:regionId', {
              templateUrl: 'resources/templates/TurismRegion.html',
              controller: 'TurismRegionController',

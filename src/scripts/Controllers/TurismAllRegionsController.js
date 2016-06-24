@@ -1,4 +1,4 @@
-﻿app.controller("TurismController", function ($scope, $uibModal, $location, Region, uiGridConstants) {
+﻿app.controller("TurismAllRegionsController", function ($scope, $uibModal, $location, Region, uiGridConstants) {
     var buildMap = function (minLat, maxLat, minLon, maxLon) {
         var map = {
             center: {

@@ -1,0 +1,22 @@
+﻿<div>
+	<div class="input-group input-group-lg" style="width: 100%;">
+		<input type="text" ng-model="regionName" ng-keyup="da(regionName)"
+			ng-keydown="selected=false" style="width: 100%;" ng-class="ajaxClass"
+			class="form-control" placeholder="Search for a region" />
+		 <span class="input-group-btn">
+         	<button class="btn btn-default" type="button">
+         		<span class="glyphicon glyphicon-search"></span>
+         	</button>
+         </span>
+	</div>
+	<div class="list-group table-condensed overlap"
+		ng-hide="!regionName.length || selected" style="width: 97.5% !important;">
+		<a class="list-group-item noTopBottomPad"
+			ng-repeat="item in TypeAheadData|filter:model  track by $index"
+			ng-click="handleSelection(item)" style="cursor: pointer"
+			ng-class="{active:isCurrent($index)}"
+			ng-mouseenter="setCurrent($index)"> {{item.name}}<br /> <i>{{item.name}}
+		</i>
+		</a>
+	</div>
+</div>

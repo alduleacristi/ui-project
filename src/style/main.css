@@ -65,3 +65,13 @@
 .loadImage { 
 	background: white url('{!URLFOR($Resource.AutoCompleteWithModal, 'AjaxLoad.gif')}') right center no-repeat; 
 }
+
+.turismUsecase{
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 500px;
+}

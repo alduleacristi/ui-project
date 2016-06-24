@@ -1,6 +1,7 @@
-﻿app.controller("TurismSearchForRegionController", function($scope, $location, Region) {
-	$scope.openStatistics = function (region) {
-	    $location.path('/turism/'+region.idRegion)
+﻿app.controller("TurismSearchForRegionController", function($scope, $location,
+		Region) {
+	$scope.openStatistics = function(region) {
+		$location.path('/turism/' + region.idRegion)
 	}
 });
 
@@ -16,27 +17,25 @@ app.directive('typeahead', function($timeout, $http, Restangular) {
 			modelret : '='
 		},
 		link : function(scope, elem, attrs) {
+			console.log("Call for: ", scope.disabled);
 			scope.current = 0;
 			scope.selected = false;
 
 			scope.da = function(txt) {
-				scope.ajaxClass = 'loadImage';
+				console.log("txt: ", txt);
+				if (txt != undefined && txt != null && txt != "") {
+					Restangular.all("searchRegion?name=" + txt).get("").then(
+							function(result) {
+								console.log("Result comes: ", result.plain());
+								scope.TypeAheadData = result.plain();
+								scope.ajaxClass = '';
+							}, function(result) {
+								console.error("Failed search region", result);
+							})
 
-				// $http({method: 'Get', url: 'Account_JSON?AccName='+txt}).
-				// success(function(data, status) {
-				// scope.TypeAheadData = data;
-				// scope.ajaxClass = '';
-				// }) ;
-				console.log("Call for: ", scope.regionName);
-				Restangular.all("searchRegion?name=" + txt).get("").then(
-						function(result) {
-							console.log("Result comes: ", result.plain());
-							scope.TypeAheadData = result.plain();
-							scope.ajaxClass = '';
-						}, function(result) {
-							console.error("Failed search region", result);
-						})
-
+				}else{
+					scope.region = null;
+				}
 			}
 
 			scope.handleSelection = function(region) {

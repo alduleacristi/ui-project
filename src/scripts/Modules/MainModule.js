@@ -31,7 +31,7 @@ app.config(['$routeProvider', function ($routeProvider, $locationProvider) {
           }*/
       })
       .when('/turism/allRegions', {
-          templateUrl: 'resources/templates/TurismAllregions.html',
+          templateUrl: 'resources/templates/TurismAllRegions.html',
           controller: 'TurismAllRegionsController',
           label: 'All regions',
       })

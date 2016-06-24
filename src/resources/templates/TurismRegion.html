@@ -1,20 +1,7 @@
 ﻿<div>
 	<div class="row">
 		<div class="col-lg-2">
-			<div class="navbar navbar-default ">
-				<!--                 <ul class="nav navbar-nav left-navbar"> -->
-				<!--                     <li> -->
-				<!--                         <a href="#/turism">History</a> -->
-				<!--                     </li> -->
-				<!--                     <br/> -->
-				<!--                     <li> -->
-				<!--                         <a href="#/turism">Predictions</a> -->
-				<!--                     </li> -->
-				<!--                     </br> -->
-				<!--                     <li> -->
-				<!--                         <a href="#/turism">Compare</a> -->
-				<!--                     </li> -->
-				<!--                 </ul> -->
+			<div class="navbar navbar-default " style="height: 500px;">
 				<uib-accordion close-others="oneAtATime"> <uib-accordion-group
 					is-open="statusHistory.open"> <uib-accordion-heading>
 				History <i class="pull-right glyphicon"
@@ -22,8 +9,10 @@
 				</uib-accordion-heading>
 				<ul class="nav navbar-nav left-navbar">
 					<li><a href="" ng-click="selectHistoryPrecipitations()">Precipitations</a></li>
-					<li><a href="" ng-click="selectHistoryTempMax()">Max temperature</a></li>
-					<li><a href="" ng-click="selectHistoryTempMin()">Min temperature</a></li>
+					<li><a href="" ng-click="selectHistoryTempMax()">Max
+							temperature</a></li>
+					<li><a href="" ng-click="selectHistoryTempMin()">Min
+							temperature</a></li>
 				</ul>
 				</uib-accordion-group> <uib-accordion-group is-open="statusPredictions.open">
 				<uib-accordion-heading> Predictions <i
@@ -32,30 +21,46 @@
 				</uib-accordion-heading>
 				<ul class="nav navbar-nav left-navbar">
 					<li><a href="" ng-click="selectPredictionPrecipitations()">Precipitations</a></li>
-					<li><a href="" ng-click="selectPredictionTempMax()">Max temperature</a></li>
-					<li><a href="" ng-click="selectPredictionTempMin()">Min temperature</a></li>
+					<li><a href="" ng-click="selectPredictionTempMax()">Max
+							temperature</a></li>
+					<li><a href="" ng-click="selectPredictionTempMin()">Min
+							temperature</a></li>
 				</ul>
 				</uib-accordion-group> </uib-accordion>
 			</div>
 		</div>
-		<div class="col-lg-8">
+		<div class="col-lg-7">
 			<div class="col-lg-1" style="height: 300px; margin-top: 50px;">
-				<rzslider rz-slider-model="avgSlider.value" rz-slider-high="avgSlider.maxValue"
-          rz-slider-options="avgSlider.options"></rzslider>
+				<rzslider rz-slider-model="avgSlider.value"
+					rz-slider-high="avgSlider.maxValue"
+					rz-slider-options="avgSlider.options"></rzslider>
 			</div>
-			<div class="col-lg-8">
+			<div class="col-lg-7">
 				<highchart id="chart1" config="chartConfig"></highchart>
 			</div>
 		</div>
-		<div class="col-lg-2">
-			<uib-accordion> <uib-accordion-group
-				heading="Compare with" is-open="true">
-			<div style="background-color: red; height: 24px;">
-				<div class="col-lg-2" style="height: 20px; margin-top: 2px;">
-					<input type="checkbox" ng-model="compareModel"
-						ng-change="changeCompare()" ng-true-value="true"
-						ng-false-value="false" />
-				</div>
+		<div class="col-lg-3">
+			<uib-accordion> 
+				<uib-accordion-group heading="Compare with" is-open="true">
+					<div style="height: 100px;">
+						<div style="width: 100%;">
+							<typeahead title="AccName" subtitle="BillingCity"
+								displaykey="AccName" retkey="AccId" modelret="valRet"
+								region="region" disabled="{{compareRegionChecked}}"/>
+						</div>
+						</br>
+						<div style="width: 100%; padding-bottom: 10px;">
+							<table class="table" id="table" ng-show="region != null || selected">
+								<tbody>
+									<tr>
+										<td><input type="checkbox" 
+ 											ng-change="changeCompare(region)" ng-model="compareRegionChecked" ng-binding="compareRegionChecked"/></td>
+										<td>{{region.name}}</td>
+									</tr>
+								</tbody>
+							</table>
+							<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" ng-show="region != null">{{alert.msg}}</uib-alert>
+						</div>
 			</div>
 			</uib-accordion-group> </uib-accordion>
 		</div>

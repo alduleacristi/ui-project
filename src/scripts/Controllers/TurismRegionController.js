@@ -386,11 +386,11 @@
 	};
 	
 	var updatePrecipitations = function(region){
-		console.log(region);
+		console.log("Update temp min history: ", region);
 		
 		var url = "results/precipitations/avgEachYears?regionId="+region.idRegion;
 		Restangular.one(url).getList().then(function(result) {
-			precipitationData = result;
+			precipitationDataComp = result;
 			$scope.comparePrecipitations = result;
 			var precipitations = null;
 			
@@ -425,11 +425,11 @@
 	}
 	
 	var updateTempMax = function(region){
-		console.log(region);
+		console.log("Update temp min history: ", region);
 		
 		var url = "results/tempMax/avgEachYears?regionId="+region.idRegion;
 		Restangular.one(url).getList().then(function(result) {
-			tempMaxData = result;
+			tempMaxDataComp = result;
 			$scope.compareTempMax = result;
 			var tempMax = null;
 			
@@ -464,10 +464,10 @@
 	}
 	
 	var updateTempMin = function(region){
-		console.log("Update temp min history");
+		console.log("Update temp min history: ", region);
 		var url = "results/tempMin/avgEachYears?regionId="+region.idRegion;
 		Restangular.one(url).getList().then(function(result) {
-			tempMinData = result;
+			tempMinDataComp = result;
 			$scope.compareTempMin = result;
 			var tempMin = null;
 			

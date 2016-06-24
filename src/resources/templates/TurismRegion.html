@@ -22,8 +22,8 @@
 				</uib-accordion-heading>
 				<ul class="nav navbar-nav left-navbar">
 					<li><a href="" ng-click="selectHistoryPrecipitations()">Precipitations</a></li>
-					<li><a href="#">Max temperature</a></li>
-					<li><a href="#">Min temperature</a></li>
+					<li><a href="" ng-click="selectHistoryTempMax()">Max temperature</a></li>
+					<li><a href="" ng-click="selectHistoryTempMin()">Min temperature</a></li>
 				</ul>
 				</uib-accordion-group> <uib-accordion-group is-open="statusPredictions.open">
 				<uib-accordion-heading> Predictions <i
@@ -31,9 +31,9 @@
 					ng-class="{'glyphicon-chevron-down': statusPredictions.open, 'glyphicon-chevron-right': !statusPredictions.open}"></i>
 				</uib-accordion-heading>
 				<ul class="nav navbar-nav left-navbar">
-					<li><a href="#">Precipitations</a></li>
-					<li><a href="#">Max temperature</a></li>
-					<li><a href="#">Min temperature</a></li>
+					<li><a href="" ng-click="selectPredictionPrecipitations()">Precipitations</a></li>
+					<li><a href="" ng-click="selectPredictionTempMax()">Max temperature</a></li>
+					<li><a href="" ng-click="selectPredictionTempMin()">Min temperature</a></li>
 				</ul>
 				</uib-accordion-group> </uib-accordion>
 			</div>

@@ -1,9 +1,13 @@
-﻿app.controller("TurismRegionController", function($scope, Restangular) {
+﻿app.controller("TurismRegionController", function($scope, $routeParams, Restangular, ChartsService, Region) {
+	var precipitationData = null;
+	var tempMaxData = null;
+	var tempMinData = null;
+	
 	$scope.series = [ {
 		data : [ 0.5, 1.9, 2.3, 4.8, 5.6 ]
 	} ];
 
-	$scope.regionId = "Brasov";
+	$scope.regionName = "";
 
 	$scope.chartConfig = {
 
@@ -27,7 +31,7 @@
 		// series options.
 		series : [
 					{
-						name : 'Average of precipitations',
+						name : '',
 						type : 'column',
 						data : [],
 						tooltip : {
@@ -38,7 +42,7 @@
 		// series : $scope.series,
 		// Title configuration (optional)
 		title : {
-			text : 'Average of precipitation in ' + $scope.regionId
+			text : 'Average of precipitation'
 		},
 		// Boolean to control showing loading status on chart (optional)
 		// Could be a string if you want to show specific loading text.
@@ -58,7 +62,6 @@
 		yAxis : [ { // Primary yAxis
 			labels : {
 				format : '{value} l/m^2',
-
 			},
 			title : {
 				text : 'Precipiataions',
@@ -106,64 +109,48 @@
 	}
 
 	$scope.$on('$viewContentLoaded', function() {
-		console.log("View content was load for turism charts");
-
-		var url = "results/precipitations/avgEachYears?regionId=1";
+		var regionId = $routeParams.regionId;
+		var param = {
+			"regionId": regionId
+		}
+		
+		Restangular.all("region?regionId="+regionId).get("").then(function(result) {
+			$scope.regionName = result.plain()[0].name;
+			$scope.chartConfig.series[0].name = $scope.regionName;
+		}, function(result) {
+			console.error("Failed to get region", result);
+		})
+		
+		var url = "results/precipitations/avgEachYears?regionId="+regionId;
 		Restangular.one(url).getList().then(function(result) {
-			var currentYear = new Date().getFullYear();
-			console.log("Current year is: ", currentYear);
-			var historyValues = [];
-			var predictionValues = [];
+			precipitationData = result;
+			var precipitations = ChartsService.getHistoryAverage(result);
+			
+			$scope.history.precipitations = precipitations;
+			$scope.avgSlider.options.floor = precipitations.firstYear;
+			$scope.avgSlider.options.ceil = precipitations.lastYear;
 
-			var firstYear = 3000;
-			var lastYear = 0;
-			for (var i = 0; i < result.length; i++) {
-				if (firstYear > result[i].year) {
-					firstYear = result[i].year
-				}
-				if (lastYear < result[i].year) {
-					lastYear = result[i].year
-				}
-			}
-			$scope.avgSlider.options.floor = firstYear;
-			$scope.avgSlider.options.ceil = lastYear;
-
-			for (var i = firstYear; i < currentYear; i++) {
-				historyValues[i] = [];
-			}
-			for (var i = currentYear; i <= lastYear; i++) {
-				predictionValues[i] = [];
-			}
-
-			for (var i = 0; i < result.length; i++) {
-				var obj = {
-					regionId : result[i].regionId,
-					avg : result[i].avg,
-					max : result[i].max
-				}
-
-				if (result[i].year < currentYear) {
-					historyValues[result[i].year].push(obj);
-				} else {
-					predictionValues[result[i].year].push(obj);
-				}
-			}
-			$scope.history.precipitations.values = historyValues;
-			$scope.prediction.precipitations.values = predictionValues;
-			$scope.history.precipitations.firstYear = firstYear;
-			$scope.history.precipitations.lastYear = lastYear;
-
-			console.log("History: ", $scope.history);
-			console.log("Prediction: ", $scope.prediction);
-
-			var firstYearData = $scope.history.precipitations.values[firstYear];
+			var firstYearData = $scope.history.precipitations.values[precipitations.firstYear];
 			var avgSeries = [];
 			for(var i=0;i<firstYearData.length;i++){
 				avgSeries.push(firstYearData[i].avg);
 			}
 			
-			console.log("First year data: ", avgSeries);
 			$scope.chartConfig.series[0].data = avgSeries;
+		}, function(result) {
+			console.error("Failed to get results of the query", result);
+		});
+		
+		var url = "results/tempMax/avgEachYears?regionId="+regionId;
+		Restangular.one(url).getList().then(function(result) {
+			tempMaxData = result.plain();
+		}, function(result) {
+			console.error("Failed to get results of the query", result);
+		});
+		
+		var url = "results/tempMin/avgEachYears?regionId="+regionId;
+		Restangular.one(url).getList().then(function(result) {
+			tempMinData = result.plain();
 		}, function(result) {
 			console.error("Failed to get results of the query", result);
 		});
@@ -179,22 +166,130 @@
 	}
 
 	$scope.selectHistoryPrecipitations = function() {
-		$scope.chartConfig.series[0].data = $scope.history.precipitations;
-		// $scope.chartConfig.series[0].data = [1,2,3];
-		// $scope.data = [];
-		// $scope.chartConfig.series[0] = {name: 'foo', data: [1,2,3]}
+		var precipitations = ChartsService.getHistoryAverage(precipitationData);
+		
+		$scope.history = precipitations;
+		$scope.avgSlider.options.floor = precipitations.firstYear;
+		$scope.avgSlider.options.ceil = precipitations.lastYear;
+		$scope.avgSlider.value = precipitations.firstYear;
 
-		// $scope.chartConfig.series[0].update({
-		// data: [1,2,3,4,5,6]
-		// }, true);
-		// var dataS = $scope.series[0];
-		// console.log(dataS);
-		// dataS.data = [1,2,3,4,5,6];
+		var firstYearData = $scope.history.values[precipitations.firstYear];
+		var avgSeries = [];
+		for(var i=0;i<firstYearData.length;i++){
+			avgSeries.push(firstYearData[i].avg);
+		}
+		
+		$scope.chartConfig.series[0].data = avgSeries;
+		$scope.chartConfig.series[0].name = $scope.regionName; 
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   l/m^2";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} l/m^2";
+		$scope.chartConfig.title.text = "Average of precipitation"
+	}
+	
+	$scope.selectHistoryTempMax = function() {
+		var tempMax = ChartsService.getHistoryAverage(tempMaxData);
+		
+		$scope.history = tempMax;
+		$scope.avgSlider.options.floor = tempMax.firstYear;
+		$scope.avgSlider.options.ceil = tempMax.lastYear;
+		$scope.avgSlider.value = tempMax.firstYear;
 
-		// $scope.addSeries();
-		// $scope.chartConfig.series = $scope.series;
-		// data.push(1000);
-		console.log("Pressesd", $scope.chartConfig.series[0].data);
+		var firstYearData = $scope.history.values[tempMax.firstYear];
+		var avgSeries = [];
+		for(var i=0;i<firstYearData.length;i++){
+			avgSeries.push(firstYearData[i].avg);
+		}
+		
+		$scope.chartConfig.series[0].data = avgSeries;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   °C";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} °C";
+		$scope.chartConfig.title.text = "Average of max temperature";
+	}
+	
+	$scope.selectHistoryTempMin = function() {
+		var tempMin = ChartsService.getHistoryAverage(tempMinData);
+		
+		$scope.history = tempMin;
+		$scope.avgSlider.options.floor = tempMin.firstYear;
+		$scope.avgSlider.options.ceil = tempMin.lastYear;
+		$scope.avgSlider.value = tempMin.firstYear;
+
+		var firstYearData = $scope.history.values[tempMin.firstYear];
+		var avgSeries = [];
+		for(var i=0;i<firstYearData.length;i++){
+			avgSeries.push(firstYearData[i].avg);
+		}
+		
+		$scope.chartConfig.series[0].data = avgSeries;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   °C";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} °C";
+		$scope.chartConfig.title.text = "Average of min temperature";
+	}
+	
+	$scope.selectPredictionPrecipitations = function() {
+		var precipitations = ChartsService.getPredictionAverage(precipitationData);
+		
+		$scope.prediction = precipitations;
+		$scope.avgSlider.options.floor = precipitations.firstYear;
+		$scope.avgSlider.options.ceil = precipitations.lastYear;
+		$scope.avgSlider.value = precipitations.firstYear;
+
+		var firstYearData = $scope.prediction.values[precipitations.firstYear];
+		var avgSeries = [];
+		for(var i=0;i<firstYearData.length;i++){
+			avgSeries.push(firstYearData[i].avg);
+		}
+		
+		$scope.chartConfig.series[0].data = avgSeries;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   l/m^2";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} l/m^2";
+		console.log($scope.chartConfig.yAxis);
+		$scope.chartConfig.title.text = "Average of precipitation";
+	}
+	
+	$scope.selectPredictionTempMax = function() {
+		var tempMax = ChartsService.getPredictionAverage(tempMaxData);
+		
+		$scope.prediction = tempMax;
+		$scope.avgSlider.options.floor = tempMax.firstYear;
+		$scope.avgSlider.options.ceil = tempMax.lastYear;
+		$scope.avgSlider.value = tempMax.firstYear;
+
+		var firstYearData = $scope.prediction.values[tempMax.firstYear];
+		var avgSeries = [];
+		for(var i=0;i<firstYearData.length;i++){
+			avgSeries.push(firstYearData[i].avg);
+		}
+		
+		$scope.chartConfig.series[0].data = avgSeries;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   °C";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} °C";
+		$scope.chartConfig.title.text = "Average of max temp";
+	}
+	
+	$scope.selectPredictionTempMin = function() {
+		var tempMin = ChartsService.getPredictionAverage(tempMinData);
+		
+		$scope.prediction = tempMin;
+		$scope.avgSlider.options.floor = tempMin.firstYear;
+		$scope.avgSlider.options.ceil = tempMin.lastYear;
+		$scope.avgSlider.value = tempMin.firstYear;
+
+		var firstYearData = $scope.prediction.values[tempMin.firstYear];
+		var avgSeries = [];
+		for(var i=0;i<firstYearData.length;i++){
+			avgSeries.push(firstYearData[i].avg);
+		}
+		
+		$scope.chartConfig.series[0].data = avgSeries;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   °C";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} °C";
+		$scope.chartConfig.title.text = "Average of min temp";
 	}
 	
 	sliderChanged = function(){
@@ -203,9 +298,9 @@
 		
 		var yearData = null;
 		if(year <  currentYear){
-			yearData = $scope.history.precipitations.values[year];
+			yearData = $scope.history.values[year];
 		}else{
-			yearData = $scope.prediction.precipitations.values[year];
+			yearData = $scope.prediction.values[year];
 		}
 		var avgSeries = [];
 		for(var i=0;i<yearData.length;i++){

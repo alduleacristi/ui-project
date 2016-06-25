@@ -36,7 +36,11 @@
                 <uib-accordion-group heading="Selected region" is-open="true">
                     <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
                     <div>
-                        <input ng-model="region.name" placeholder="Name of the region" />
+                        <input ng-model="region.name" placeholder="Name of the region" style="width: 100%;"/>
+                    </div>
+                    </br>
+                    <div>
+					<select class="selectpicker" ng-model="selectedType" ng-options="o.value as o.option for o in regionTypes" placeholder="Select the type of the region" ng-change="changeSelect(selectedType)"></select>
                     </div>
                     <br />
                     <uib-accordion>

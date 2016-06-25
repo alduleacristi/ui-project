@@ -30,6 +30,25 @@ app.config(['$routeProvider', function ($routeProvider, $locationProvider) {
               },
           }*/
       })
+      .when('/prediction', {
+          templateUrl: 'resources/templates/Prediction.html',
+          label: 'Prediction',
+      })
+      .when('/prediction/searchForRegion', {
+             templateUrl: 'resources/templates/PredictionSearchForRegion.html',
+             controller: 'PredictionSearchForRegionController',
+             label: 'Search for region'
+       })
+       .when('/prediction/allRegions', {
+          templateUrl: 'resources/templates/PredictionAllRegions.html',
+          controller: 'PredictionAllRegionsController',
+          label: 'All regions',
+      })
+      .when('/prediction/:regionId', {
+             templateUrl: 'resources/templates/PredictionRegion.html',
+             controller: 'PredictionRegionController',
+             label: 'Region'
+       })
       .when('/turism/allRegions', {
           templateUrl: 'resources/templates/TurismAllRegions.html',
           controller: 'TurismAllRegionsController',

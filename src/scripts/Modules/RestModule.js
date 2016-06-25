@@ -12,6 +12,9 @@ restModule.config(function (RestangularProvider) {
 restModule.factory('Region', function (Restangular) {
     return Restangular.service('region');
 });
+restModule.factory('RegionById', function (Restangular) {
+    return Restangular.service('regionById');
+});
 
 restModule.factory('IngestRegion', function (Restangular) {
     return Restangular.service('ingest/region');

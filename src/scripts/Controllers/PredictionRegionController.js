@@ -1,4 +1,4 @@
-﻿app.controller("TurismRegionController", function($scope, $routeParams, Restangular, ChartsService, Region) {
+﻿app.controller("PredictionRegionController", function($scope, $routeParams, Restangular, ChartsService, Region) {
 	var precipitationData = null;
 	var tempMaxData = null;
 	var tempMinData = null;

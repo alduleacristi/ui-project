@@ -1,4 +1,4 @@
-﻿app.controller("TurismAllRegionsController", function ($scope, $uibModal, $location, Region, uiGridConstants) {
+﻿app.controller("PredictionAllRegionsController", function ($scope, $uibModal, $location, Region, uiGridConstants) {
     var buildMap = function (minLat, maxLat, minLon, maxLon) {
         var map = {
             center: {
@@ -83,7 +83,7 @@
 
     $scope.$on('$viewContentLoaded', function () {
         
-        Region.getList({type: "turism"}).then(function (result) {
+        Region.getList({type: "prediction"}).then(function (result) {
             var resultData = result.plain();
 
             for (var i = 0; i < resultData.length; i++) {
@@ -148,6 +148,6 @@ $scope.openMap = function (region) {
 
 $scope.openStatistics = function (region) {
     console.log("Try to open new region: ",region.idRegion)
-    $location.path('/turism/'+region.idRegion)
+    $location.path('/prediction/'+region.idRegion)
 }
 });

@@ -82,8 +82,8 @@
     };
 
     $scope.$on('$viewContentLoaded', function () {
-
-        Region.getList().then(function (result) {
+    	$scope.grid.data = [];
+        Region.getList({type: "turism"}).then(function (result) {
             var resultData = result.plain();
 
             for (var i = 0; i < resultData.length; i++) {
@@ -92,10 +92,30 @@
                 resultData[i].map.markers = buildMarkers(resultData[i].minLat, resultData[i].maxLat, resultData[i].minLon, resultData[i].maxLon);
                 console.log(resultData[i]);
             }
-            $scope.grid.data = resultData;
+            for(var i=0;i<resultData.length;i++){
+            	$scope.grid.data.push(resultData[i]);
+            }
             //$scope.$apply();
             console.info($scope.grid.data)
         });
+        
+        Region.getList({type: "prediction"}).then(function (result) {
+            var resultData = result.plain();
+
+            for (var i = 0; i < resultData.length; i++) {
+                resultData[i].map = buildMap(resultData[i].minLat, resultData[i].maxLat, resultData[i].minLon, resultData[i].maxLon);
+                resultData[i].map.polygons = buildPolygons(resultData[i].minLat, resultData[i].maxLat, resultData[i].minLon, resultData[i].maxLon);
+                resultData[i].map.markers = buildMarkers(resultData[i].minLat, resultData[i].maxLat, resultData[i].minLon, resultData[i].maxLon);
+                console.log(resultData[i]);
+            }
+            for(var i=0;i<resultData.length;i++){
+            	$scope.grid.data.push(resultData[i]);
+            }
+            
+            //$scope.$apply();
+            console.info($scope.grid.data)
+        });
+
     });
 
     $scope.grid = {

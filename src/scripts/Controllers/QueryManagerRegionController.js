@@ -1,6 +1,6 @@
-﻿app.controller("QueryManagerRegionController", function ($scope,$routeParams, Region,Query,UsedQuery, crumble, Restangular) {
+﻿app.controller("QueryManagerRegionController", function ($scope,$routeParams, RegionById,Query,UsedQuery, crumble, Restangular) {
     var params = { regionId: $routeParams.regionId}
-    Region.getList(params).then(function (result) {
+    RegionById.getList(params).then(function (result) {
         var array = result.plain();
         if (array == null || array == undefined || array.length <= 0) {
             $scope.noDataIsAvailable = true;

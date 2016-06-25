@@ -253,6 +253,54 @@
 		updateSecondSeries();
 	}
 	
+	$scope.selectAllYearsPrecipitations = function() {
+		var precipitationAllYears = ChartsService.getAllYearsAverage(precipitationData);
+		
+		$scope.chartConfig.series[0].data = precipitationAllYears.values;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   °C";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} °C";
+		$scope.chartConfig.title.text = "Average of precipitations between "+precipitationAllYears.firstYear+" and "+precipitationAllYears.lastYear;
+		
+		$scope.chartModel.subtype = "precipitationsAllYears";
+		$scope.chartModel.type = "";
+		$scope.chartModel.year = -1;
+	
+		updateSecondSeries();
+	}
+	
+	$scope.selectAllYearsTempMax = function() {
+		var tempMaxAllYears = ChartsService.getAllYearsAverage(tempMaxData);
+		
+		$scope.chartConfig.series[0].data = tempMaxAllYears.values;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   °C";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} °C";
+		$scope.chartConfig.title.text = "Average of max temperature between "+tempMaxAllYears.firstYear+" and "+tempMaxAllYears.lastYear;
+		
+		$scope.chartModel.subtype = "tempMaxAllYears";
+		$scope.chartModel.type = "";
+		$scope.chartModel.year = -1;
+	
+		updateSecondSeries();
+	}
+	
+	$scope.selectAllYearsTempMin = function() {
+		var tempMinAllYears = ChartsService.getAllYearsAverage(tempMinData);
+		
+		$scope.chartConfig.series[0].data = tempMinAllYears.values;
+		$scope.chartConfig.series[0].name = $scope.regionName;
+		$scope.chartConfig.series[0].tooltip.valueSuffix = "   °C";
+		$scope.chartConfig.yAxis[0].labels.format = "{value} °C";
+		$scope.chartConfig.title.text = "Average of min temperature between "+tempMinAllYears.firstYear+" and "+tempMinAllYears.lastYear;
+		
+		$scope.chartModel.subtype = "tempMinAllYears";
+		$scope.chartModel.type = "";
+		$scope.chartModel.year = -1;
+	
+		updateSecondSeries();
+	}
+	
 	$scope.selectPredictionPrecipitations = function() {
 		var precipitations = ChartsService.getPredictionAverage(precipitationData);
 		
@@ -350,7 +398,6 @@
 			avgSeries.push(yearData[i].avg);
 		}
 		
-		console.log("First year data: ", avgSeries);
 		$scope.chartConfig.series[0].data = avgSeries;
 		$scope.chartModel.year = year;
 		
@@ -456,8 +503,6 @@
 						}; 
 			
 			$scope.chartConfig.series.push(compareSeries);
-			//console.log($scope.chartConfig.series);
-			//$scope.chartModel.year = precipitations.firstYear;
 		}, function(result) {
 			console.error("Failed to get results of the query", result);
 		});
@@ -494,8 +539,72 @@
 						}; 
 			
 			$scope.chartConfig.series.push(compareSeries);
-			//console.log($scope.chartConfig.series);
-			//$scope.chartModel.year = precipitations.firstYear;
+		}, function(result) {
+			console.error("Failed to get results of the query", result);
+		});
+	}
+	
+	var updatePrecipitationsAllYears = function(region){
+		console.log("Update precipitations all years: ", region);
+		var url = "results/precipitations/avgEachYears?regionId="+region.idRegion;
+		Restangular.one(url).getList().then(function(result) {
+			var precipitationsAllYears = ChartsService.getAllYearsAverage(result);
+			
+			var compareSeries = {
+				name : region.name,
+				type : 'column',
+				data : precipitationsAllYears.values,
+				tooltip : {
+					valueSuffix : '°C'
+				},
+				id : 'compareSeries'
+			}; 
+			
+			$scope.chartConfig.series.push(compareSeries);
+		}, function(result) {
+			console.error("Failed to get results of the query", result);
+		});
+	}
+	
+	var updateTempMinAllYears = function(region){
+		console.log("Update temp min all years: ", region);
+		var url = "results/tempMin/avgEachYears?regionId="+region.idRegion;
+		Restangular.one(url).getList().then(function(result) {
+			var tempMinAllYears = ChartsService.getAllYearsAverage(result);
+			
+			var compareSeries = {
+				name : region.name,
+				type : 'column',
+				data : tempMinAllYears.values,
+				tooltip : {
+					valueSuffix : '°C'
+				},
+				id : 'compareSeries'
+			}; 
+			
+			$scope.chartConfig.series.push(compareSeries);
+		}, function(result) {
+			console.error("Failed to get results of the query", result);
+		});
+	}
+	
+	var updateTempMaxAllYears = function(region){
+		console.log("Update temp max all years: ", region);
+		var url = "results/tempMax/avgEachYears?regionId="+region.idRegion;
+		Restangular.one(url).getList().then(function(result) {
+			var tempMaxAllYears = ChartsService.getAllYearsAverage(result);
+			
+			var compareSeries = {
+				name : region.name,
+				type : 'column',
+				data : tempMaxAllYears.values,
+				tooltip : {
+					valueSuffix : '°C'
+				},
+				id : 'compareSeries'
+			}; 
+			
+			$scope.chartConfig.series.push(compareSeries);
 		}, function(result) {
 			console.error("Failed to get results of the query", result);
 		});
@@ -510,13 +619,33 @@
 //            return;
 //        };
 		
-		if($scope.chartModel.subtype == "precipitations"){
+		switch($scope.chartModel.subtype){
+		case "precipitations":{
 			updatePrecipitations(region);
-		}else if($scope.chartModel.subtype == "tempMax"){
-			updateTempMax(region);
-		}else if($scope.chartModel.subtype == "tempMin"){
-			updateTempMin(region);
+			break;
 		}
+		case "tempMax":{
+			updateTempMax(region);
+			break;
+		}
+		case "tempMin":{
+			updateTempMin(region);
+			break;
+		}
+		case "tempMinAllYears":{
+			updateTempMinAllYears(region);
+			break;
+		}
+		case "tempMaxAllYears":{
+			updateTempMaxAllYears(region);
+			break;
+		}
+		case "precipitationsAllYears":{
+			updatePrecipitationsAllYears(region);
+			break;
+		}
+		}
+		
 	}
 	
 	var removeSeriesChart = function(){

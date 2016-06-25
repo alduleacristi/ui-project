@@ -2,17 +2,17 @@
 	<div class="row">
 		<div class="col-lg-2">
 			<div class="navbar navbar-default " style="height: 500px;">
-				<uib-accordion close-others="oneAtATime"> <uib-accordion-group
+				<uib-accordion close-others="true"> <uib-accordion-group
 					is-open="statusHistory.open"> <uib-accordion-heading>
 				History <i class="pull-right glyphicon"
 					ng-class="{'glyphicon-chevron-down': statusHistory.open, 'glyphicon-chevron-right': !statusHistory.open}"></i>
 				</uib-accordion-heading>
 				<ul class="nav navbar-nav left-navbar">
-					<li><a href="" ng-click="selectHistoryPrecipitations()">Precipitations</a></li>
-					<li><a href="" ng-click="selectHistoryTempMax()">Max
-							temperature</a></li>
-					<li><a href="" ng-click="selectHistoryTempMin()">Min
-							temperature</a></li>
+					<li><a href="" ng-click="selectHistoryPrecipitations()">Each year precipitations</a></li>
+					<li><a href="" ng-click="selectHistoryTempMax()">Each year max
+							temp</a></li>
+					<li><a href="" ng-click="selectHistoryTempMin()">Each year min
+							temp</a></li>
 				</ul>
 				</uib-accordion-group> <uib-accordion-group is-open="statusPredictions.open">
 				<uib-accordion-heading> Predictions <i
@@ -26,7 +26,21 @@
 					<li><a href="" ng-click="selectPredictionTempMin()">Min
 							temperature</a></li>
 				</ul>
-				</uib-accordion-group> </uib-accordion>
+				</uib-accordion-group> 
+				
+				<uib-accordion-group
+					is-open="allYears.open"> <uib-accordion-heading>
+				All years history <i class="pull-right glyphicon"
+					ng-class="{'glyphicon-chevron-down': allYears.open, 'glyphicon-chevron-right': !allYears.open}"></i>
+				</uib-accordion-heading>
+				<ul class="nav navbar-nav left-navbar">
+					<li><a href="" ng-click="selectAllYearsPrecipitations()">All years precipitations</a></li>
+					<li><a href="" ng-click="selectAllYearsTempMax()">All years max
+							temp</a></li>
+					<li><a href="" ng-click="selectAllYearsTempMin()">All years min
+							temp</a></li>
+				</ul>
+				</uib-accordion-group></uib-accordion>
 			</div>
 		</div>
 		<div class="col-lg-7">

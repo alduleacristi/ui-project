@@ -125,4 +125,93 @@ app.service('ChartsService', function() {
 
 		return response;
 	}
+
+	this.getPredictionUsecaseAverage = function(data) {
+		// var currentYear = new Date().getFullYear();
+		var predictionValues = [];
+		var steps = [];
+
+		var lastYear = 0;
+		var firstYear = 3000;
+		for (var i = 0; i < data.length; i++) {
+			if (lastYear < data[i].year) {
+				lastYear = data[i].year
+			}
+			if (firstYear > data[i].year) {
+				firstYear = data[i].year
+			}
+		}
+
+		for (var i = firstYear; i <= lastYear; i += 10) {
+			predictionValues[i] = [];
+			steps.push(i);
+		}
+
+		for (var i = 0; i < data.length; i++) {
+			var obj = {
+				regionId : data[i].regionId,
+				avg : data[i].avg,
+				max : data[i].max
+			}
+
+			if (data[i].year >= firstYear) {
+				predictionValues[data[i].year].push(obj);
+			}
+		}
+
+		// console.log("Steps: ", steps);
+		var response = {
+			firstYear : firstYear,
+			lastYear : lastYear,
+			values : predictionValues,
+			steps : steps
+		}
+
+		return response;
+	}
+
+	this.getPredictionEvolution = function(data) {
+		var predictionValues = [];
+		var steps = [];
+		var finalValues = [];
+
+		var lastYear = 0;
+		var firstYear = 3000;
+		for (var i = 0; i < data.length; i++) {
+			if (lastYear < data[i].year) {
+				lastYear = data[i].year
+			}
+			if (firstYear > data[i].year) {
+				firstYear = data[i].year
+			}
+		}
+
+		for (var i = firstYear; i <= lastYear; i += 10) {
+			predictionValues[i] = [];
+			steps.push(i);
+		}
+		console.log("Steps: ", steps);
+
+		for (var i = 0; i < data.length; i++) {
+			predictionValues[data[i].year].push(data[i].avg);
+		}
+
+		for (var i = firstYear; i <= lastYear; i += 10) {
+			var yearData = predictionValues[i];
+			var sum = 0;
+			var nr = 0;
+			for (var j = 0; j < yearData.length; j++) {
+				sum += yearData[j];
+				nr++;
+			}
+			finalValues.push(sum / nr);
+		}
+		
+		var response = {
+				values : finalValues,
+				steps : steps
+			}
+
+		return response;
+	}
 });

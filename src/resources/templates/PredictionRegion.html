@@ -3,80 +3,43 @@
 		<div class="col-lg-2">
 			<div class="navbar navbar-default " style="height: 500px;">
 				<uib-accordion close-others="true"> <uib-accordion-group
-					is-open="statusHistory.open"> <uib-accordion-heading>
-				History <i class="pull-right glyphicon"
-					ng-class="{'glyphicon-chevron-down': statusHistory.open, 'glyphicon-chevron-right': !statusHistory.open}"></i>
-				</uib-accordion-heading>
-				<ul class="nav navbar-nav left-navbar">
-					<li><a href="" ng-click="selectHistoryPrecipitations()">Each year precipitations</a></li>
-					<li><a href="" ng-click="selectHistoryTempMax()">Each year max
-							temp</a></li>
-					<li><a href="" ng-click="selectHistoryTempMin()">Each year min
-							temp</a></li>
-				</ul>
-				</uib-accordion-group> <uib-accordion-group is-open="statusPredictions.open">
-				<uib-accordion-heading> Predictions <i
-					class="pull-right glyphicon"
+					is-open="statusPredictions.open"> <uib-accordion-heading>
+				Predictions <i class="pull-right glyphicon"
 					ng-class="{'glyphicon-chevron-down': statusPredictions.open, 'glyphicon-chevron-right': !statusPredictions.open}"></i>
 				</uib-accordion-heading>
 				<ul class="nav navbar-nav left-navbar">
-					<li><a href="" ng-click="selectPredictionPrecipitations()">Precipitations</a></li>
-					<li><a href="" ng-click="selectPredictionTempMax()">Max
+					<li><a href="" ng-click="selectPredictionUsescasePrecipitations()">Precipitations</a></li>
+					<li><a href="" ng-click="selectPredictionUseCaseTempMax()">Max
 							temperature</a></li>
-					<li><a href="" ng-click="selectPredictionTempMin()">Min
+					<li><a href="" ng-click="selectPredictionUsecaseTempMin()">Min
 							temperature</a></li>
 				</ul>
-				</uib-accordion-group> 
-				
-				<uib-accordion-group
-					is-open="allYears.open"> <uib-accordion-heading>
-				All years history <i class="pull-right glyphicon"
+				</uib-accordion-group> <uib-accordion-group is-open="allYears.open">
+				<uib-accordion-heading> Evolution <i
+					class="pull-right glyphicon"
 					ng-class="{'glyphicon-chevron-down': allYears.open, 'glyphicon-chevron-right': !allYears.open}"></i>
 				</uib-accordion-heading>
 				<ul class="nav navbar-nav left-navbar">
-					<li><a href="" ng-click="selectAllYearsPrecipitations()">All years precipitations</a></li>
-					<li><a href="" ng-click="selectAllYearsTempMax()">All years max
-							temp</a></li>
-					<li><a href="" ng-click="selectAllYearsTempMin()">All years min
-							temp</a></li>
+					<li><a href="" ng-click="evolutionAllYearsPrecipitations()">All
+							years precipitations</a></li>
+					<li><a href="" ng-click="evolutionAllYearsTempMax()">All
+							years max temp</a></li>
+					<li><a href="" ng-click="evolutionAllYearsTempMin()">All
+							years min temp</a></li>
 				</ul>
 				</uib-accordion-group></uib-accordion>
 			</div>
 		</div>
-		<div class="col-lg-7">
+		<div class="col-lg-9">
 			<div class="col-lg-1" style="height: 300px; margin-top: 50px;">
 				<rzslider rz-slider-model="avgSlider.value"
 					rz-slider-high="avgSlider.maxValue"
-					rz-slider-options="avgSlider.options" ng-show="chartModel.withSlider"></rzslider>
+					rz-slider-options="avgSlider.options"
+					ng-show="chartModel.withSlider"></rzslider>
 			</div>
 			<div class="col-lg-7">
 				<highchart id="chart1" config="chartConfig"></highchart>
 			</div>
-		</div>
-		<div class="col-lg-3">
-			<uib-accordion> 
-				<uib-accordion-group heading="Compare with" is-open="true">
-					<div style="height: 100px;">
-						<div style="width: 100%;">
-							<typeahead title="AccName" subtitle="BillingCity"
-								displaykey="AccName" retkey="AccId" modelret="valRet"
-								region="region" disabled="{{compareRegionChecked}}"/>
-						</div>
-						</br>
-						<div style="width: 100%; padding-bottom: 10px;">
-							<table class="table" id="table" ng-show="region != null || selected">
-								<tbody>
-									<tr>
-										<td><input type="checkbox" 
- 											ng-change="changeCompare(region)" ng-model="compareRegionChecked" ng-binding="compareRegionChecked"/></td>
-										<td>{{region.name}}</td>
-									</tr>
-								</tbody>
-							</table>
-							<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" ng-show="region != null">{{alert.msg}}</uib-alert>
-						</div>
-			</div>
-			</uib-accordion-group> </uib-accordion>
 		</div>
 	</div>
 </div>

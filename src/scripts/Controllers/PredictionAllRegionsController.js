@@ -100,28 +100,18 @@
 
     $scope.grid = {
         data: $scope.regions,
+        expandableRowTemplate: 'resources/templates/RegionGridExpandable.html',
+        expandableRowHeight: 100,
         paginationPageSizes: [10, 15, 20],
         paginationPageSize: 10,
 
         columnDefs: [{
-            name: 'name', displayName: 'Name', width: '10%'
+            name: 'name', displayName: 'Name', width: '30%'
         }, {
-            name: 'startYear', displayName: 'First Year', width: '10%'
+            name: 'startYear', displayName: 'First Year', width: '20%'
         }, {
-            name: 'endYear', displayName: 'Last Year', width: '10%'
-        }, {
-            name: 'maxLat',
-            displayName: 'Max lat',
-        }, {
-            name: 'minLat',
-            displayName: 'Min lat',
-        }, {
-            name: 'maxLon',
-            displayName: 'Max lon',
-        }, {
-            name: 'minLon',
-            displayName: 'Min lon',
-        }, {
+            name: 'endYear', displayName: 'Last Year', width: '20%'
+        },{
             name: 'map',
             displayName: 'Map',
             cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-primary" ng-click="grid.appScope.openMap(row.entity)">Open</button></div>'

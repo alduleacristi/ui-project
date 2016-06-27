@@ -24,14 +24,14 @@
         <div class="col-lg-2">
             <div ng-include="'/resources/templates/PlatformMenu.html'"></div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-7">
             <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds" events="map.events">
                 <ui-gmap-polygon static="true" ng-repeat="p in polygons track by p.id" path="p.path" stroke="p.stroke" visible="p.visible"
                                  geodesic="p.geodesic" fill="p.fill" fit="false" editable="p.editable" draggable="p.draggable"></ui-gmap-polygon>
                 <ui-gmap-marker ng-repeat="m in markers" coords="m.coords" icon="m.icon" idkey="m.id" options="markerOptions" events="markerEvents"></ui-gmap-marker>
             </ui-gmap-google-map>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <uib-accordion>
                 <uib-accordion-group heading="Selected region" is-open="true">
                     <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
@@ -53,6 +53,7 @@
                             </div>
                         </uib-accordion-group>
                     </uib-accordion>
+                    </br>
                     <button type="button" class="btn btn-primary" ng-click="saveRegion()">
                         Save
                     </button>

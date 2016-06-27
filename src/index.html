@@ -29,6 +29,7 @@
     <script src="scripts/lib/angular-spinner.min.js"></script>
     <script src="scripts/lib/ui-listView.min.js"></script>
     <script src="scripts/lib/rzslider.js"></script>
+    <script src="scripts/lib/sha256.js"></script>
 
     <script src="scripts/Modules/MainModule.js"></script>
     <script src="scripts/Modules/RestModule.js"></script>
@@ -96,12 +97,12 @@
                     <li><a href="#/prediction">Prediction</a></li>
                     <li><a href="#/platform">Platform</a></li>
                     <li>
-                        <a href="#/login" ng-show="!authenticated">Login</a>                
+                        <a href="#/login" ng-show="!isAutheticated()">Login</a>                
                     </li>
                     <li> 
-                        <a href="#/home" ng-show="authenticated" ng-click="logout()">Logout</a>     
+                        <a href="#/home" ng-show="isAutheticated()" ng-click="logout()">Logout</a>     
                     </li>
-                    <li ng-show="authenticated"><span style="color: red; font-style: italic; font-weight: bold;">Hi, {{user.email}}</span></li>
+                    <li ng-show="isAutheticated()"><span style="color: red; font-style: italic; font-weight: bold;">Hi, {{user.clientId}}</span></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

@@ -27,7 +27,8 @@
         }, {
             name: 'timeDuration',
             width: '130',
-            displayName: 'Running time'
+            displayName: 'Running time',
+            cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.timeDuration}} min</div>'
         }, {
             name: 'running', width: '110',
             displayName: 'Running',
@@ -43,74 +44,84 @@
         query.running = true;
         var url = query.query.path + "?dbName=" + DATABASE_NAME + "&regionId=" + $scope.region.idRegion + "&eachYear=true";
         Restangular.one(url).getList().then(function (result) {
-            console.log("Result: ", result);
+            console.log("Result of the query: ", result);
+            $scope.getDataForGrid();
         }, function (result) {
             console.error("Failed to get data about region.", result);
         });
     };
+    
+    $scope.verifyIfQueryWasUsed = function (usedQuerys, query) {
+        console.info("Query: ", query.idQuery)
+        for (var i = 0; i < usedQuerys.length; i++) {
+            console.info("UsedQuery: ", usedQuerys[i].query.idQuery)
+            if (usedQuerys[i].query.idQuery == query.idQuery) {
+                return true;
+            }
+        }
 
-    $scope.$on('$viewContentLoaded', function () {
-        var queryComes = false;
-        var usedQueryComes = false;
+        return false;
+    }
+    
+    $scope.prepareDataForGrid = function(){
+        console.info("In call prepareDataForGrid");
+        var data = $scope.usedQuerys;
+        
+        for(var i=0;i<data.length;i++){
+        	data[i].timeDuration = (data[i].timeDuration / 1000) / 60;
+        }
+        
+        for (var i = 0; i < $scope.querys.length; i++) {
+            var query = $scope.querys[i];
+
+            if (!$scope.verifyIfQueryWasUsed(data, query)) {
+                var enhancedQuery = {
+                    query: query,
+                    running: false,
+                    successed: null,
+                    timeDuration: 0
+                }
+                data.push(enhancedQuery);
+                console.info(enhancedQuery);
+            }
+        }
+
+        return data;
+    }
+    
+    $scope.getDataForGrid = function(){
+    	$scope.queryComes = false;
+        $scope.usedQueryComes = false;
         $scope.usedQuerys = [];
-
-        var verifyIfQueryWasUsed = function (usedQuerys, query) {
-            console.info("Query: ", query.idQuery)
-            for (var i = 0; i < usedQuerys.length; i++) {
-                console.info("UsedQuery: ", usedQuerys[i].query.idQuery)
-                if (usedQuerys[i].query.idQuery == query.idQuery) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        var prepareDataForGrid = function(){
-            console.info("In call prepareDataForGrid");
-            var data = $scope.usedQuerys;
-            for (var i = 0; i < $scope.querys.length; i++) {
-                var query = $scope.querys[i];
-
-                if (!verifyIfQueryWasUsed(data, query)) {
-                    var enhancedQuery = {
-                        query: query,
-                        running: false,
-                        successed: null,
-                        timeDuration: 0
-                    }
-                    data.push(enhancedQuery);
-                    console.info(enhancedQuery);
-                }
-            }
-
-            return data;
-        }
-
-        Query.getList().then(function (result) {
-            queryComes = true;
+    	
+    	Query.getList().then(function (result) {
+    		$scope.queryComes = true;
             $scope.querys = result.plain();
 
-            if (usedQueryComes == true) {
-                $scope.grid.data = prepareDataForGrid();
+            if ($scope.usedQueryComes == true) {
+                $scope.grid.data = $scope.prepareDataForGrid();
+                console.info("Query: ", $scope.querys);
             }
             //$scope.grid.data = $scope.querys;
-            console.info("Query: ", $scope.querys);
         }, function (result) {
             console.error("Failed to get data about region.", result);
         });
 
         UsedQuery.getList(params).then(function (result) {
-            usedQueryComes = true;
+        	$scope.usedQueryComes = true;
             $scope.usedQuerys = result.plain();
 
-            if(queryComes == true){
-                $scope.grid.data = prepareDataForGrid();
+            if($scope.queryComes == true){
+                $scope.grid.data = $scope.prepareDataForGrid();
+                console.info("UsedQuerys: ", $scope.usedQuerys);
             }
             //$scope.grid.data = $scope.usedQuerys;
-            console.info("UsedQuerys: ", $scope.usedQuerys);
         }, function (result) {
             console.error("Failed to get data about region.", result);
         });
+    }
+
+    $scope.$on('$viewContentLoaded', function () {
+    	 $scope.getDataForGrid();    
     });
 });

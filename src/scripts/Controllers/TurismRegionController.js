@@ -113,7 +113,7 @@
 			"regionId": regionId
 		}
 		
-		Restangular.all("region?regionId="+regionId).get("").then(function(result) {
+		Restangular.all("regionById?regionId="+regionId).get("").then(function(result) {
 			$scope.regionName = result.plain()[0].name;
 			$scope.chartConfig.series[0].name = $scope.regionName;
 		}, function(result) {
@@ -137,6 +137,7 @@
 			
 			$scope.chartConfig.series[0].data = avgSeries;
 			$scope.chartModel.year = precipitations.firstYear;
+			$scope.history = precipitations;
 		}, function(result) {
 			console.error("Failed to get results of the query", result);
 		});
@@ -399,6 +400,7 @@
 		
 		var yearData = null;
 		if(year <  currentYear){
+			console.log("History: ",$scope.history);
 			yearData = $scope.history.values[year];
 		}else{
 			yearData = $scope.prediction.values[year];
